@@ -33,7 +33,7 @@ namespace Cocktail_Magician_Services
         {
             try
             {
-                var barToAdd = _barFactory.CreateNewBar(barToCreate.Name, barToCreate.Address, barToCreate.Information, barToCreate.Picture, barToCreate.MapDirection);
+                var barToAdd = _barFactory.CreateNewBar(barToCreate.Name, barToCreate.Address, barToCreate.Information, barToCreate.Picture, MapDirectionStringSplit(barToCreate.MapDirection));
 
                 var barToFind = _context.Bars.SingleOrDefault(bar => bar.Name == barToAdd.Name && bar.Address == barToAdd.Address && !bar.IsDeleted);
 
@@ -273,6 +273,18 @@ namespace Cocktail_Magician_Services
             _context.Bars.Update(bar.ToBar());
 
             await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// This method takes an embeded copied html from google maps, splits and takes only the string
+        /// from the "src" tag.
+        /// </summary>
+        /// <param name="map">The copied embded map html from google maps</param>
+        /// <returns>String</returns>
+        private string MapDirectionStringSplit(string map)
+        {
+            var splitString = map.Split('"');
+            return splitString[1];
         }
     }
 }
