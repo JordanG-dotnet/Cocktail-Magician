@@ -53,11 +53,11 @@ namespace Cocktail_Magician
                 options.Password.RequiredLength = 5;
             }
             )
-                .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<CMContext>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            var mvcOption = new MvcOptions();
+            mvcOption.EnableEndpointRouting = false;
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             
             services.AddScoped<IBarManager, BarManager>();
             services.AddScoped<ICocktailManager, CocktailManager>();
@@ -81,7 +81,6 @@ namespace Cocktail_Magician
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
